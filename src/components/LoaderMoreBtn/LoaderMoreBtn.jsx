@@ -1,7 +1,7 @@
-export default function LoaderMorebtn(){
+export default function LoaderMorebtn({onClick}){
     return(
         <div>
-            <button> Load more</button>
+            <button onClick={onClick}> Load more</button>
         </div>
     )
 }

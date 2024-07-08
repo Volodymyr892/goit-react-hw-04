@@ -6,40 +6,51 @@ import LoaderMorebtn from "../LoaderMoreBtn/LoaderMoreBtn"
 import ImageModal from "../ImageModal/ImageModal"
 import fetchArticlesWithTopic from "../../articles-api"
 console.log("🚀 ~ fetchArticlesWithTopic:", fetchArticlesWithTopic())
-import { useState } from "react"
+import { useState, useEffect} from "react"
+
 
 
 export default function App() {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
+    const [page, setPage] = useState(1)
+    const [topic, setTopic] = useState("")
     
     const handleSearch = async(newTopic)=>{
-        try {
             setArticles([]);
-            setError(false);
-            setLoading(true);
-            const data = await fetchArticlesWithTopic(newTopic);
-            console.log("🚀 ~ handleSearch ~ data:", data)
-            setArticles(data)
-        } catch (error) {
-            console.log("🚀 ~ handleSearch ~ error:", error)
-            setError(true);
-        }finally{
-            setLoading(false);
-        }
-        
+            setTopic(newTopic) 
     }
-    
-    console.log("🚀 ~ App ~ articles:", articles)
+        const handleLoadMore = ()=>{
+            setPage(page+1);
+        }
+
+        useEffect(()=>{
+            async function getArticles(){
+                try {
+                    setError(false);
+                    setLoading(true);
+                    const data = await fetchArticlesWithTopic(topic, page);
+                    setArticles(data)
+                } catch (error) {
+                    setError(true);
+                }finally{
+                    setLoading(false);
+                }
+
+            }
+            getArticles()
+        },[topic, page])
+
     return(
         <>
             <SearchBar onSearch={handleSearch}/>
-            <ImageGallery items={articles}/>
-            <Loader/>
-            <ErrorMessage/>
-            <LoaderMorebtn/>
+            {articles.length>0 && <ImageGallery items={articles}/>}
+            {loading && <Loader/>}
+            {error && <ErrorMessage/>}
+            <LoaderMorebtn onClick={handleLoadMore}/>
             <ImageModal/>
+        
         </>
     )
 }
