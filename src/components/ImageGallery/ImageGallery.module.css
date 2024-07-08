@@ -1,0 +1,28 @@
+/* ImageGallery.module.css */
+/* ImageGallery.module.css */
+.imageGallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  .imageGalleryItem {
+    cursor: pointer;
+  }
+  
+  .imageGalleryItem img {
+    width: 360px;
+    height: 200px;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+  
+  .imageGalleryItem:hover img {
+    transform: scale(1.05);
+  }
+  

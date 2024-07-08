@@ -1,0 +1,20 @@
+.imageSearchApp {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .mainTitle {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .imageSearchApp__loaderWrap,
+  .imageSearchApp__buttonLoadMoreWrap {
+    margin-top: 20px;
+  }
