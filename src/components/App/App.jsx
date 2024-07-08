@@ -19,6 +19,7 @@ export default function App() {
     
     const handleSearch = async(newTopic)=>{
             setArticles([]);
+            setPage(1)
             setTopic(newTopic) 
     }
         const handleLoadMore = ()=>{
@@ -26,12 +27,18 @@ export default function App() {
         }
 
         useEffect(()=>{
+            if (topic ==="") {
+                return;
+            }
+
             async function getArticles(){
                 try {
                     setError(false);
                     setLoading(true);
                     const data = await fetchArticlesWithTopic(topic, page);
-                    setArticles(data)
+                    setArticles(prevArticles => {
+                        return[...prevArticles, ...data]
+                    })
                 } catch (error) {
                     setError(true);
                 }finally{
@@ -48,7 +55,7 @@ export default function App() {
             {articles.length>0 && <ImageGallery items={articles}/>}
             {loading && <Loader/>}
             {error && <ErrorMessage/>}
-            <LoaderMorebtn onClick={handleLoadMore}/>
+            {articles.length>0 && !loading &&<LoaderMorebtn onClick={handleLoadMore}/>}
             <ImageModal/>
         
         </>
